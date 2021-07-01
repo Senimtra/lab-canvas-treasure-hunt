@@ -24,11 +24,9 @@ function drawGrid() {
 
 function drawEverything() {
    drawGrid();
-   // drawPlayer()
+   drawPlayer();
    // drawTreasure()
 }
-
-drawEverything();
 
 // ######################################
 // ## Iteration 2: The Character Class ##
@@ -52,3 +50,18 @@ player.moveDown(); // Increase by 1 the value of player.row
 player.moveRight(); // Increase by 1 the value of player.col
 
 console.log(player.col, player.row); // => 1,2
+
+// #####################################
+// ## Iteration 3: Drawing the Player ##
+// #####################################
+
+const playerImg = new Image();
+playerImg.src = './images/character-down.png';
+
+drawPlayer = () => {
+   playerImg.addEventListener('load', () => {
+      context.drawImage(playerImg, player.col * fieldSize, player.row * fieldSize);
+   });
+};
+
+drawEverything();
