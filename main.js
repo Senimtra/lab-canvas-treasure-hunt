@@ -1,4 +1,3 @@
-// main.js
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
@@ -23,6 +22,7 @@ function drawGrid() {
 }
 
 function drawEverything() {
+   context.clearRect(0, 0, width, height);
    drawGrid();
    drawPlayer();
    drawTreasure();
@@ -55,10 +55,9 @@ console.log(player.col, player.row); // => 1,2
 // ## Iteration 3: Drawing the Player ##
 // #####################################
 
-const playerImg = new Image();
-playerImg.src = './images/character-down.png';
-
 drawPlayer = () => {
+   const playerImg = new Image();
+   playerImg.src = './images/character-down.png';
    playerImg.addEventListener('load', () => {
       context.drawImage(playerImg, player.col * fieldSize, player.row * fieldSize);
    });
@@ -80,15 +79,43 @@ class Treasure {
 }
 
 const newTreasure = new Treasure();
-
-const treasureImg = new Image();
-treasureImg.src = './images/treasure.png';
+newTreasure.setRandomPosition();
 
 drawTreasure = () => {
-   newTreasure.setRandomPosition();
+   const treasureImg = new Image();
+   treasureImg.src = './images/treasure.png';
    treasureImg.addEventListener('load', () => {
       context.drawImage(treasureImg, newTreasure.col * fieldSize, newTreasure.row * fieldSize, fieldSize, fieldSize);
    });
 };
 
 drawEverything();
+
+// ########################################
+// ## Iteration 5: React to player input ##
+// ########################################
+
+window.addEventListener('keydown', (event) => {
+   // Stop the default behavior (moving the screen to the left/up/right/down)
+   event.preventDefault();
+
+   // React based on the key pressed
+   switch (event.key) {
+      case 'ArrowLeft':
+         player.moveLeft();
+         break;
+      case 'ArrowUp':
+         player.moveUp();
+         break;
+      case 'ArrowRight':
+         player.moveRight();
+         break;
+      case 'ArrowDown':
+         player.moveDown();
+         break;
+   }
+   if (player.col === newTreasure.col && player.row === newTreasure.row) {
+      newTreasure.setRandomPosition();
+   }
+   drawEverything();
+});
