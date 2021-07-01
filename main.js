@@ -25,7 +25,7 @@ function drawGrid() {
 function drawEverything() {
    drawGrid();
    drawPlayer();
-   // drawTreasure()
+   drawTreasure();
 }
 
 // ######################################
@@ -61,6 +61,33 @@ playerImg.src = './images/character-down.png';
 drawPlayer = () => {
    playerImg.addEventListener('load', () => {
       context.drawImage(playerImg, player.col * fieldSize, player.row * fieldSize);
+   });
+};
+
+// #####################################
+// ## Iteration 4: The Treasure Class ##
+// #####################################
+
+class Treasure {
+   constructor(col, row) {
+      this.col = col;
+      this.row = row;
+   }
+   setRandomPosition() {
+      this.col = Math.floor(Math.random() * 10);
+      this.row = Math.floor(Math.random() * 10);
+   }
+}
+
+const newTreasure = new Treasure();
+
+const treasureImg = new Image();
+treasureImg.src = './images/treasure.png';
+
+drawTreasure = () => {
+   newTreasure.setRandomPosition();
+   treasureImg.addEventListener('load', () => {
+      context.drawImage(treasureImg, newTreasure.col * fieldSize, newTreasure.row * fieldSize, fieldSize, fieldSize);
    });
 };
 
